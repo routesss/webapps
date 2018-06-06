@@ -4,6 +4,36 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!--配置spring-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context.xml</param-value>
+    </context-param>
+    <listener> <!--web容器启动时初始化spring配置文件使用contextConfigLocation指定的文件,如果没有显式声明，则 系统默认 在WEB-INF/applicationContext.xml-->
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!--<listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>-->
+
+    <!-- 字符编码过滤器 -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!--welcome pages-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -16,7 +46,7 @@
         <init-param>
             <!--Sources标注的文件夹下需要新建一个spring文件夹-->
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:spring-mvc.xml</param-value>
+            <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
