@@ -14,6 +14,7 @@
         <module>dao</module>
         <module>commons-utils</module>
         <module>entity</module>
+        <module>utils</module>
     </modules>
 
     <properties>

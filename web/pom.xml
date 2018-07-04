@@ -14,6 +14,13 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- webapps-entity -->
+        <dependency>
+            <artifactId>entity</artifactId>
+            <groupId>com.module.sola</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- webapps-service -->
         <dependency>
             <artifactId>service</artifactId>
             <groupId>com.module.sola</groupId>

@@ -44,4 +44,11 @@ public class WebDemo {
 
         return serviceDemo.demo1() ;
     }
+
+    @RequestMapping("/demo3")
+    @ResponseBody
+    public String demo3(){
+
+        return serviceDemo.demo2() ;
+    }
 }

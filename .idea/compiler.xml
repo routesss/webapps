@@ -8,7 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="commonsutils" />
         <module name="dao" />
+        <module name="entity" />
         <module name="service" />
+        <module name="utils" />
         <module name="web" />
       </profile>
     </annotationProcessing>
