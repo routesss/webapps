@@ -29,7 +29,7 @@ public class WebDemo {
     @RequestMapping(value = "/demo1")
     public String demo1(){
 
-        logger.info("demo1 日志消息 " + new Date());
+        logger.info("demo1 日志消息 " + new Date()) ;
 
         return "demo/demo1" ;
     }
