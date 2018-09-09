@@ -39,7 +39,7 @@ public class SocketController extends TextWebSocketHandler {
      * 断开连接后触发的回调
      */
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        logger.info("close connect url{} id{} {}", session.getUri(), session.getId(), status.toString());
+        logger.info("close connect success url{} id{}", session.getUri(), session.getId());
         sessionMap.remove(session.getId()) ;
         super.afterConnectionClosed(session, status);
     }
