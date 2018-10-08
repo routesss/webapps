@@ -58,50 +58,7 @@ public class WebDemo {
         return serviceDemo.demo2() ;
     }
 
-    @RequestMapping("/demo4")
-    @ResponseBody
-    public String demo4(){
 
-        File file = null ;
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null ;
-
-        File fileout = null ;
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null ;
-
-        try{
-            file = new File("D:\\TEST\\执行结果-1.txt");
-            fileReader = new FileReader(file) ;
-            bufferedReader = new BufferedReader(fileReader);
-
-            String str ;
-
-            fileout = new File("D:\\TEST\\合并.txt") ;
-            fileWriter = new FileWriter(fileout) ;
-            bufferedWriter = new BufferedWriter(fileWriter) ;
-
-
-            while ((str = bufferedReader.readLine()) != null){
-                System.out.println(str);
-                bufferedWriter.write(str+",");
-            }
-
-        }catch (Exception e){
-            logger.info("{}",e.getMessage());
-            e.printStackTrace();
-        }finally {
-            try{
-                bufferedReader.close();
-                fileReader.close();
-                bufferedWriter.close();
-                fileWriter.close();
-            }catch (Exception e){
-
-            }
-        }
-        return "demo4" ;
-    }
 
 }
 
