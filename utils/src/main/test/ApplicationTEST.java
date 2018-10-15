@@ -24,4 +24,14 @@ public class ApplicationTEST {
         System.out.println(Arrays.toString(num));
     }
 
+    @Test
+    public void demo3(){
+
+        int buffer[] = new int[]{4, 3, 7, 5, 9, 2} ;
+        SortUtil.QuickSort(buffer);
+        for(int item : buffer){
+            System.out.println(item);
+        }
+    }
+
 }
