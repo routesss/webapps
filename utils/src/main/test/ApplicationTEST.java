@@ -24,6 +24,7 @@ public class ApplicationTEST {
         System.out.println(Arrays.toString(num));
     }
 
+    //快速排序 例子
     @Test
     public void demo3(){
 
@@ -33,5 +34,19 @@ public class ApplicationTEST {
             System.out.println(item);
         }
     }
+
+    //快速排序 实现
+    @Test
+    public void  demo4(){
+        int buffer[] = new int[]{6, 4, 3, 7, 5, 9, 2, 1} ;
+
+        SortUtil.fastSort(buffer) ;
+
+        for (int item : buffer){
+            System.out.println(item);
+        }
+    }
+
+
 
 }

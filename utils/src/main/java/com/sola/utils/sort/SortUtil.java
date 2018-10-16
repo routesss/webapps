@@ -29,29 +29,50 @@ public class SortUtil {
     }
 
 
-    public static void fastSorting(int buffer[]){
+    public static void fastSort(int buffer[]){
+        fastSort(buffer,0, buffer.length-1);
+    }
 
-        int datum ; //基准值
-        int maxBuffer[] ;//大于基准值的数据
-        int minBuffer[] ;//小于等于基准值的数据
-        if(buffer.length > 1){//递归条件
-            datum = buffer[0] ;
-            for (int i = 0; i < buffer.length; i++){
-                if(datum > buffer[i]){
-                    //maxBuffer.add
-                }else{
+    /**
+     * 自定义版本 快速排序  先实现选中一个基准值排序两边的值，再递归调用该函数
+     * @param buffer
+     * @param low
+     * @param hight
+     */
+    private static void fastSort(int buffer[], int low, int hight){
 
-                }
+        int datum = buffer[(low + hight) / 2] ;
+
+        int Blow = low ;//保存下限索引值 递归时需要调用
+        int Bhight = hight ;//保存上限索引值 递归时需要调用
+
+        while (low < hight){
+            while (datum > buffer[low]){
+                low++ ;
             }
-        }else{
-            //基线条件
+
+            while (datum < buffer[hight]){
+                hight-- ;
+            }
+            if(low >= hight){
+                fastSort(buffer, Blow, low -1);
+                fastSort(buffer, hight+1, Bhight);
+                break ;
+            }
+
+            buffer[low] += buffer[hight] ;
+            buffer[hight] = buffer[low] - buffer[hight] ;
+            buffer[low] -= buffer[hight] ;
 
         }
 
     }
 
 
-
+    /**
+     * 网上例子 快速排序
+     * @param arr
+     */
     public static void QuickSort(int[] arr)
     {
         QuickSort(arr, 0, arr.length - 1);
