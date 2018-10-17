@@ -1,8 +1,11 @@
+import com.alibaba.fastjson.JSON;
 import com.sola.utils.sort.SortUtil;
 import com.sola.utils.sort.find.FindUtil;
+import com.sola.utils.tree.tfTree.TfTree;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * 测试类
@@ -35,16 +38,29 @@ public class ApplicationTEST {
         }
     }
 
-    //快速排序 实现
+    //快速排序
     @Test
     public void  demo4(){
         int buffer[] = new int[]{6, 4, 3, 7, 5, 9, 2, 1} ;
 
         SortUtil.fastSort(buffer) ;
 
+        new HashMap<>() ;
         for (int item : buffer){
             System.out.println(item);
         }
+    }
+
+    //二叉树测试
+    @Test
+    public void demo5(){
+        int buffer[] = new int[]{6, 4, 3, 7, 5, 9, 2, 1} ;
+        TfTree tree = new TfTree();
+        for (int item : buffer){
+            tree.insert(item);
+        }
+        System.out.println(tree);//json格式
+        tree.infixOrder();//
     }
 
 
