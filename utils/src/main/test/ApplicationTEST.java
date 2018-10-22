@@ -4,8 +4,12 @@ import com.sola.utils.sort.find.FindUtil;
 import com.sola.utils.tree.tfTree.TfTree;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 测试类
@@ -54,13 +58,23 @@ public class ApplicationTEST {
     //二叉树测试
     @Test
     public void demo5(){
-        int buffer[] = new int[]{6, 4, 3, 7, 5, 9, 2, 1} ;
+        int buffer[] = new int[]{5, 4, 3, 7, 9, 2, 10, 8} ;
         TfTree tree = new TfTree();
         for (int item : buffer){
             tree.insert(item);
         }
         System.out.println(tree);//json格式
-        tree.infixOrder();//
+        tree.infixOrder();
+        System.out.println("--------------------------------");
+        tree.paintTree();
+        System.out.println("--------------------------------");
+        tree.delete(5);
+        tree.paintTree();
+        tree.infixOrder();
+        System.out.println("--------------------------------");
+        tree.delete(7);
+        tree.paintTree();
+        tree.infixOrder();
     }
 
 
