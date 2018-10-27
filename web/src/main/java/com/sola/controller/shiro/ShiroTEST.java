@@ -1,11 +1,15 @@
 package com.sola.controller.shiro;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -47,6 +51,8 @@ public class ShiroTEST {
             //4、登录，即身份验证
             subject.login(token);
             System.out.println("验证成功");
+            subject.checkRole("role1"); //检查角色
+            subject.checkPermission("user:delete");//检查权限
         } catch (Exception e) {
             System.out.println(e.getMessage()); //失败消息
         } finally {
@@ -97,6 +103,90 @@ public class ShiroTEST {
 
         return "demo2" ;
     }
+
+
+    /**
+     * 使用jdbc reaml
+     */
+    public void demo3(){
+        //设置数据源
+        DruidDataSource druidDataSource = new DruidDataSource();
+        druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        druidDataSource.setUrl("jdbc:mysql://localhost:3306/webapps?characterEncoding=utf-8");
+        druidDataSource.setUsername("root");
+        druidDataSource.setPassword("123456");
+
+        //jdbcRealm设置数据源
+        JdbcRealm jdbcRealm = new JdbcRealm();
+        jdbcRealm.setDataSource(druidDataSource);
+        jdbcRealm.setPermissionsLookupEnabled(true);//如果需要检查权限 调用checkPermission方法这里需要设置为true
+        jdbcRealm.setAuthorizationCachingEnabled(false);//不缓存权限数据
+
+        //设置自定义检查登录的sql语句
+        String authenticationQuery = "select password from sys_user where name = ?" ;
+        jdbcRealm.setAuthenticationQuery(authenticationQuery);
+
+        String userRoleQuery = "SELECT r.role_name FROM sys_user u JOIN sys_user_role ur ON u.id = ur.user_id JOIN sys_role r ON ur.role_id = r.id WHERE u.name = ?" ;
+        jdbcRealm.setUserRolesQuery(userRoleQuery);
+
+        String permissionsQuery = "SELECT m.menu_name FROM sys_role r JOIN sys_role_menu rm ON r.id=rm.role_id JOIN sys_menu m ON rm.menu_id=m.id WHERE r.role_name = ?" ;
+        jdbcRealm.setPermissionsQuery(permissionsQuery);
+
+        //构建securityManager环境
+        DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
+        defaultSecurityManager.setRealm(jdbcRealm);
+
+        //得到subject对象
+        SecurityUtils.setSecurityManager(defaultSecurityManager);
+        Subject subject = SecurityUtils.getSubject();
+
+        UsernamePasswordToken token = new UsernamePasswordToken("sola", "123456");
+        subject.login(token);
+        //得到一个身份集合，其包含了Realm验证成功的身份信息
+        PrincipalCollection principals = subject.getPrincipals();
+        logger.info("验证用户信息 {}", principals.asList());
+
+        subject.checkRole("admin");
+        //subject.checkRoles("admin", "root");
+
+        subject.checkPermission("user:add");
+        //subject.checkPermissions("user:add", "user:del");
+
+    }
+
+    /**
+     * 自定义 reaml
+     */
+    public void  demo4(){
+
+        MyRealmi myReal = new MyRealmi();
+
+        //构建securityManager环境
+        DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
+        defaultSecurityManager.setRealm(myReal);
+
+        //shiro 加密
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName("md5");    //加密算法
+        matcher.setHashIterations(1);           //加密次数
+        myReal.setCredentialsMatcher(matcher);  //reaml设置加密
+
+        //得到subject对象
+        SecurityUtils.setSecurityManager(defaultSecurityManager);
+        Subject subject = SecurityUtils.getSubject();
+
+        UsernamePasswordToken token = new UsernamePasswordToken("sola", "123456");
+        subject.login(token);
+        //得到一个身份集合，其包含了Realm验证成功的身份信息
+        PrincipalCollection principals = subject.getPrincipals();
+        logger.info("验证用户信息 {}", principals.asList());
+
+        subject.checkRole("管理员");
+
+        subject.checkPermission("user:add");
+
+    }
+
 
 }
 

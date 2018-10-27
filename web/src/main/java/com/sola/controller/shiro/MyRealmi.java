@@ -3,10 +3,18 @@ package com.sola.controller.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 自定义 Realm 域
@@ -14,6 +22,80 @@ import org.slf4j.LoggerFactory;
 public class MyRealmi extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(MyRealmi.class);
+
+    private static Map<String, String> userData = new HashMap<String, String>() ;//模拟用户数据  后续从数据库中读取信息
+    private static Map<String, Set> roleData = new HashMap<String, Set>() ;//模拟角色数据
+    private static Map<String, Set> permissionsData = new HashMap<String, Set>() ;//模拟权限数据
+    static {
+        Md5Hash md5Hash = new Md5Hash("123456");
+        userData.put("sola", md5Hash.toString()) ;
+        userData.put("admin", md5Hash.toString()) ;
+
+        HashSet<String> roleSet = new HashSet<>();
+        roleSet.add("管理员") ;
+        roleSet.add("研发") ;
+        roleData.put("sola", roleSet) ;
+
+        HashSet<String> permissionSet = new HashSet<String>() ;
+        permissionSet.add("user:add") ;
+        permissionSet.add("user:delete") ;
+        permissionsData.put("sola", permissionSet) ;
+    }
+
+    /**
+     * 检测授权数据
+     * @param principalCollection
+     * @return
+     */
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        String userName = (String) principalCollection.getPrimaryPrincipal() ;
+
+        //测试数据是写死的 需要从数据库中获取
+        Set<String> role = getRolesByUserName(userName);
+        Set<String> permissions = getPermissionsByUserName(userName);
+
+        SimpleAuthorizationInfo simpleAuthenticationInfo = new SimpleAuthorizationInfo();
+        simpleAuthenticationInfo.setStringPermissions(permissions);//设置权限数据
+        simpleAuthenticationInfo.setRoles(role);//设置角色数据
+
+        return simpleAuthenticationInfo;
+    }
+
+
+    /**
+     * 检测用户登录相关
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
+        String username = (String) authenticationToken.getPrincipal();//得到用户名
+        String password = new String((char[]) authenticationToken.getCredentials());//得到密码
+
+        String checkPassword = checkUser(username) ;
+
+        if(checkPassword != null){
+            //验证成功 如果身份认证验证成功，返回一个AuthenticationInfo实现，shiro会检查 这里checkPassword和token里的密码是否一致 交给shiro去处理
+            SimpleAuthenticationInfo authentication = new SimpleAuthenticationInfo(username, checkPassword, getName());
+            //authentication.setCredentialsSalt(ByteSource.Util.bytes("salt")); //shiro 加盐时使用
+            return authentication;
+        }else{
+            //如果用户名错误
+            throw new UnknownAccountException();
+        }
+
+        /*if(checkPassword != null && checkPassword.equals(password)){
+            //验证成功 如果身份认证验证成功，返回一个AuthenticationInfo实现
+            return new SimpleAuthenticationInfo(username, checkPassword, getName());
+        }else{
+            throw new UnknownAccountException();
+        }*/
+
+    }
+
 
     /**
      * Realm域名字
@@ -25,28 +107,24 @@ public class MyRealmi extends AuthorizingRealm {
         return this.getClass().getName();
     }
 
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+    /**
+     * 根据用户名查询用户是否存在 存在返回密码 不存在返回null
+     * @param userName
+     * @return
+     */
+    private String checkUser(String userName){
+
+        return userData.get(userName) ;
     }
 
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    private Set<String> getRolesByUserName(String userName){
 
-        String username = (String) authenticationToken.getPrincipal();//得到用户名
-        String password = new String((char[]) authenticationToken.getCredentials());//得到密码
-
-        //-----这里可以用token中的username和password去数据库查询用户,这里测试先写死
-        if (!"sola".equals(username)) {
-            //如果用户名错误
-            throw new UnknownAccountException();
-        }
-        if (!"123456".equals(password)) {
-            //如果密码错误
-            throw new IncorrectCredentialsException();
-        }
-        //如果身份认证验证成功，返回一个AuthenticationInfo实现；
-        return new SimpleAuthenticationInfo(username, password, getName());
-
+        return roleData.get(userName) ;
     }
+
+    private Set<String> getPermissionsByUserName(String userName){
+
+        return permissionsData.get(userName) ;
+    }
+
 }
