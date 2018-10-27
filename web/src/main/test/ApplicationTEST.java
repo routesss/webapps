@@ -31,7 +31,6 @@ public class ApplicationTEST {
     public void  demo3(){
         ShiroTEST shiroTEST = new ShiroTEST();
         shiroTEST.demo4();
-
     }
 
 
