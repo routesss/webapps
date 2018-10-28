@@ -12,7 +12,7 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="/static/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 DEMO TEST

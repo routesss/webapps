@@ -32,8 +32,8 @@ public class MyRealmi extends AuthorizingRealm {
         userData.put("admin", md5Hash.toString()) ;
 
         HashSet<String> roleSet = new HashSet<>();
-        roleSet.add("管理员") ;
-        roleSet.add("研发") ;
+        roleSet.add("admin") ;
+        roleSet.add("root") ;
         roleData.put("sola", roleSet) ;
 
         HashSet<String> permissionSet = new HashSet<String>() ;
@@ -84,7 +84,7 @@ public class MyRealmi extends AuthorizingRealm {
             return authentication;
         }else{
             //如果用户名错误
-            throw new UnknownAccountException();
+            throw new UnknownAccountException("用户不存在");
         }
 
         /*if(checkPassword != null && checkPassword.equals(password)){

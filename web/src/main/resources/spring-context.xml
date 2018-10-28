@@ -80,7 +80,6 @@
     <!-- 开启事务注解支持,扫描@Transactional注解的类定义事务  -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
-
     <!--其他事务配置方式-->
     <!-- 通知 -->
     <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">

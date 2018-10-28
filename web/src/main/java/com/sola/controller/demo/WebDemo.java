@@ -3,6 +3,8 @@ package com.sola.controller.demo;
 import com.sola.service.demo.ServiceDemo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,8 @@ public class WebDemo {
      * 测试依赖注入
      * @return
      */
+    //@RequiresRoles("admin")
+    @RequiresPermissions("admin")
     @RequestMapping("/demo2")
     @ResponseBody
     public String demo2(){
@@ -51,6 +55,7 @@ public class WebDemo {
         return serviceDemo.demo1() ;
     }
 
+    @RequiresPermissions("root")
     @RequestMapping("/demo3")
     @ResponseBody
     public String demo3(){
