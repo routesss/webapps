@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Created by sola on 2018/10/28.
@@ -60,8 +62,11 @@ public class loginController {
     @ResponseBody
     @RequiresRoles("admin") //验证角色
     @RequestMapping(value = "/test")
-    public Object test(){
-
+    public Object test(HttpServletRequest request){
+        logger.warn("{}", request);
+        logger.warn("request : {}", request.getSession());
+        Subject subject = SecurityUtils.getSubject();
+        logger.warn("SecurityUtils : {}", subject.getSession());
         return "text" ;
     }
 

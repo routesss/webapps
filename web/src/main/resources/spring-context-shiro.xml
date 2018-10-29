@@ -5,20 +5,33 @@
 
     <description>Shiro Configuration</description>
 
+    <!--shiro配置文件 需要和spring容器配置文件同级 和 springMvc同级会出问题 需要查资料-->
 
-    <!--shiro过滤器-->
+    <!-- Shiro权限过滤过滤器定义 -->
+    <bean name="shiroFilterChainDefinitions" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                /static/** = anon
+                /views/include/** = anon
+                /login = anon
+                /login/sublogin = anon
+                /** = authc
+            </value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 安全认证过滤器 -->
+    <!--shiro过滤器   shiro过滤器会包装request-->
+    <!--unauthorizedUrl，系统未认证时跳转的页面，loginUrl登录页面，successUrl登录成功的页面-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"></property>
         <property name="loginUrl" value="login"></property>
         <property name="unauthorizedUrl" value="403"></property>
         <property name="filterChainDefinitions">
-            <value>
-                /login = anon
-                /* = authc
-            </value>
+            <ref bean="shiroFilterChainDefinitions"></ref>
         </property>
-
     </bean>
+
     <!--创建SecurityManager对象-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="realm"></property>
