@@ -2,6 +2,7 @@ import com.alibaba.fastjson.JSON;
 import com.sola.utils.sort.SortUtil;
 import com.sola.utils.sort.find.FindUtil;
 import com.sola.utils.tree.tfTree.TfTree;
+import com.sola.utils.treeAVL.TreeAVL;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -75,6 +76,19 @@ public class ApplicationTEST {
         tree.delete(7);
         tree.paintTree();
         tree.infixOrder();
+    }
+
+    //avl tree
+    @Test
+    public void demo6(){
+        Integer buffer[] = new Integer[]{5, 4, 3, 7, 9, 2, 10, 8, -1, -5} ;
+        TreeAVL<Integer> tree = new TreeAVL<>();
+        for(Integer item : buffer){
+            tree.insert(item) ;
+        }
+        tree.infixOrder();
+        System.out.println();
+        tree.paintTree();
     }
 
 
