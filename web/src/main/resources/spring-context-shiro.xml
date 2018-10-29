@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <description>Shiro Configuration</description>
 
@@ -20,6 +20,9 @@
         </constructor-arg>
     </bean>
 
+    <!--自定义shiro过滤器  未使用-->
+    <bean id="rolesOrFilter" class="com.sola.filter.RolesOrFilter"></bean>
+
     <!-- 安全认证过滤器 -->
     <!--shiro过滤器   shiro过滤器会包装request-->
     <!--unauthorizedUrl，系统未认证时跳转的页面，loginUrl登录页面，successUrl登录成功的页面-->
@@ -29,6 +32,11 @@
         <property name="unauthorizedUrl" value="403"></property>
         <property name="filterChainDefinitions">
             <ref bean="shiroFilterChainDefinitions"></ref>
+        </property>
+        <property name="filters">
+            <util:map>
+                <entry key="rolesOr" value-ref="rolesOrFilter"></entry>
+            </util:map>
         </property>
     </bean>
 
