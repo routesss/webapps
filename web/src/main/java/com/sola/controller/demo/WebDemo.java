@@ -46,8 +46,7 @@ public class WebDemo {
      * 测试依赖注入
      * @return
      */
-    //@RequiresRoles("admin")
-    @RequiresPermissions("admin")
+    @RequiresRoles("admin")
     @RequestMapping("/demo2")
     @ResponseBody
     public String demo2(){
@@ -55,7 +54,7 @@ public class WebDemo {
         return serviceDemo.demo1() ;
     }
 
-    @RequiresPermissions("root")
+    @RequiresRoles("admin2")
     @RequestMapping("/demo3")
     @ResponseBody
     public String demo3(){

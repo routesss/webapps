@@ -5,6 +5,7 @@ import com.sola.vo.LoginUserVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class loginController {
 
 
     @ResponseBody
-    @RequiresPermissions("admin")
+    @RequiresRoles("admin") //验证角色
     @RequestMapping(value = "/test")
     public Object test(){
 
@@ -65,7 +66,8 @@ public class loginController {
     }
 
     @ResponseBody
-    @RequiresPermissions("admin1")
+    //@RequiresRoles("admin1")
+    @RequiresPermissions("user:add") //验证权限
     @RequestMapping(value = "/test2")
     public Object test2(){
 
