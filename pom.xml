@@ -214,6 +214,7 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.8.13</version>
         </dependency>
+        <!--redis-->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>

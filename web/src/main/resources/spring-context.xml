@@ -15,6 +15,11 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
+    <!--扫描工具类 只扫描Component注解 redisUtil放在工具类里了所以这里要设置一下-->
+    <context:component-scan base-package="com.sola.utils">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:db.properties"/>
 

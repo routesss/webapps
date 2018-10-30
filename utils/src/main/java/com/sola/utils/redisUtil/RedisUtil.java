@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Set;
+
 /** redis工具类
  * Created by sola on 2018/10/29.
  */
@@ -52,6 +54,33 @@ public class RedisUtil {
         Jedis jedis = getResource();
         try{
             return jedis.get(key) ;
+        }finally {
+            jedis.close();
+        }
+    }
+
+    /**
+     * 根据key删除value
+     * @param key
+     */
+    public void delete(byte[] key){
+        Jedis jedis = getResource();
+        try{
+            jedis.del(key) ;
+        }finally {
+            jedis.close();
+        }
+    }
+
+    /**
+     * 根据前缀字符串获取符合的所有key
+     * @param SHIRO_SESSION_PREFIX
+     * @return
+     */
+    public Set<byte[]> keys(String SHIRO_SESSION_PREFIX){
+        Jedis jedis = getResource();
+        try{
+            return jedis.keys((SHIRO_SESSION_PREFIX + "*").getBytes()) ;
         }finally {
             jedis.close();
         }

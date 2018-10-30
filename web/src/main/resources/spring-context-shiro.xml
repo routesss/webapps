@@ -43,6 +43,7 @@
     <!--创建SecurityManager对象-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="realm"></property>
+        <property name="sessionManager" ref="sessionManager"></property>
     </bean>
     <!--自定义realm-->
     <bean id="realm" class="com.sola.controller.shiro.MyRealmi">
@@ -53,6 +54,14 @@
         <property name="hashAlgorithmName" value="md5"></property>
         <property name="hashIterations" value="1"></property>
     </bean>
+
+    <!--sessionManager 管理session  需要自定义管理器 使用token作为key,没有key的情况下使用sessionid-->
+    <bean id="sessionManager" class="com.sola.utils.MySessionManager.MySessionManager">
+        <property name="sessionDAO" ref="sessionRedisDao"></property>
+    </bean>
+
+    <!--session DAO 负责session的增删改查-->
+    <bean id="sessionRedisDao" class="com.sola.utils.MyShiroSessionDao.ShiroSessionRedisDao"></bean>
 
     <!--shiro 注解相关  需要查资料-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean><!-- Shiro生命周期处理器-->

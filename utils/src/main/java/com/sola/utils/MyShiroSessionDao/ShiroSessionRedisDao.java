@@ -4,11 +4,14 @@ import com.sola.utils.redisUtil.RedisUtil;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by sola on 2018/10/29.
@@ -18,13 +21,11 @@ public class ShiroSessionRedisDao extends AbstractSessionDAO {
     @Autowired
     private RedisUtil redisUtil ;
 
-    //session前缀
+    /**
+     * session前缀
+     */
     private final String SHIRO_SESSION_PREFIX = "shiro-session-" ;
 
-    //将key转换为byte[]类型数据
-    private byte[] getKey(String key){
-        return (SHIRO_SESSION_PREFIX + key).getBytes() ;
-    }
 
     /**
      * 创建session
@@ -35,12 +36,8 @@ public class ShiroSessionRedisDao extends AbstractSessionDAO {
     protected Serializable doCreate(Session session) {
 
         Serializable sessionId = generateSessionId(session);
-
-        byte[] key = getKey(session.getId().toString()) ;
-        byte[] value = SerializationUtils.serialize(session) ;
-
-        redisUtil.set(key, value) ;
-        redisUtil.expire(key, 1800);
+        assignSessionId(session, sessionId); //绑定session和sessionid
+        saveSession(session);
 
         return sessionId;
     }
@@ -68,16 +65,60 @@ public class ShiroSessionRedisDao extends AbstractSessionDAO {
      */
     @Override
     public void update(Session session) throws UnknownSessionException {
-
+        saveSession(session);
     }
 
+    /**
+     * 删除session
+     * @param session
+     */
     @Override
     public void delete(Session session) {
-
+        if(session != null && session.getId() != null){
+            byte[] key = getKey(session.getId().toString());
+            redisUtil.delete(key);
+        }
     }
 
+    /**
+     * 获取全部session
+     * @return
+     */
     @Override
     public Collection<Session> getActiveSessions() {
-        return null;
+        Set<byte[]> keys = redisUtil.keys(SHIRO_SESSION_PREFIX);
+
+        Set<Session> sessions = new HashSet<Session>() ;
+        if(CollectionUtils.isEmpty(keys)){
+            return sessions ;
+        }
+        for(byte[] key : keys){
+            Session session = (Session)SerializationUtils.deserialize(redisUtil.get(key)) ;
+            sessions.add(session) ;
+        }
+        return sessions;
+    }
+
+    /**
+     * 将key转换为byte[]类型数据
+     * @param key
+     * @return
+     */
+    private byte[] getKey(String key){
+        return (SHIRO_SESSION_PREFIX + key).getBytes() ;
+    }
+
+    /**
+     * 保存session
+     * @param session
+     */
+    private void saveSession(Session session){
+        if(session != null && session.getId() != null){
+            byte[] key = getKey(session.getId().toString()) ;
+            byte[] value = SerializationUtils.serialize(session) ;
+
+            redisUtil.set(key, value) ;
+            redisUtil.expire(key, 1800);
+        }
     }
 }
