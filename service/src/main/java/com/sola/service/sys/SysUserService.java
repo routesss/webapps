@@ -2,6 +2,8 @@ package com.sola.service.sys;
 
 import com.sola.entity.sys.SysUser;
 
+import java.util.List;
+
 public interface SysUserService {
 
     /**
@@ -51,5 +53,7 @@ public interface SysUserService {
      * @mbg.generated Mon Oct 29 16:44:03 CST 2018
      */
     int updateByPrimaryKey(SysUser record);
+
+    List<SysUser> findList(SysUser user) ;
 
 }

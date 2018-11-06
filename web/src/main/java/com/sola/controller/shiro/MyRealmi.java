@@ -1,6 +1,8 @@
 package com.sola.controller.shiro;
 
 
+import com.sola.entity.sys.SysUser;
+import com.sola.service.sys.SysUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -10,11 +12,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 自定义 Realm 域
@@ -22,6 +22,9 @@ import java.util.Set;
 public class MyRealmi extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(MyRealmi.class);
+
+    @Autowired
+    private SysUserService sysUserService ;
 
     private static Map<String, String> userData = new HashMap<String, String>() ;//模拟用户数据  后续从数据库中读取信息
     private static Map<String, Set> roleData = new HashMap<String, Set>() ;//模拟角色数据
@@ -86,14 +89,6 @@ public class MyRealmi extends AuthorizingRealm {
             //如果用户名错误
             throw new UnknownAccountException("用户不存在");
         }
-
-        /*if(checkPassword != null && checkPassword.equals(password)){
-            //验证成功 如果身份认证验证成功，返回一个AuthenticationInfo实现
-            return new SimpleAuthenticationInfo(username, checkPassword, getName());
-        }else{
-            throw new UnknownAccountException();
-        }*/
-
     }
 
 
@@ -113,8 +108,15 @@ public class MyRealmi extends AuthorizingRealm {
      * @return
      */
     private String checkUser(String userName){
-
-        return userData.get(userName) ;
+        SysUser sysUser = new SysUser();
+        sysUser.setLoginName(userName);
+        List<SysUser> list = sysUserService.findList(sysUser);
+        if(list != null && !list.isEmpty()){
+            return list.get(0).getPassword() ;
+        }else{
+            return null ;
+        }
+        //return userData.get(userName) ;
     }
 
     private Set<String> getRolesByUserName(String userName){

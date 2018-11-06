@@ -3,6 +3,8 @@ package com.sola.dao.sys;
 import com.sola.entity.sys.SysUser;
 import com.sola.utils.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 @MyBatisDao
 public interface SysUserMapper {
     /**
@@ -52,4 +54,6 @@ public interface SysUserMapper {
      * @mbg.generated Mon Oct 29 16:44:03 CST 2018
      */
     int updateByPrimaryKey(SysUser record);
+
+    List<SysUser> findList(SysUser user) ;
 }

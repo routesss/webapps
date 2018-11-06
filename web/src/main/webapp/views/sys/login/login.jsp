@@ -42,7 +42,7 @@
                 <img src="images/verify.png" border="0" class="verifyimg" />--%>
                 <div class="clearfix"></div>
                 <li class="login-sub">
-                    <input type="submit" name="Submit" id="submit" value="登录" />
+                    <input type="button" name="Submit" id="submit" value="登录" />
                                         <input type="reset" name="Reset" value="重置" />
                 </li>
            </form>

@@ -1,4 +1,5 @@
 import com.sola.controller.shiro.ShiroTEST;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Test;
 
 /**
@@ -33,5 +34,11 @@ public class ApplicationTEST {
         shiroTEST.demo4();
     }
 
+
+    @Test
+    public void demo4(){
+        Md5Hash md5Hash = new Md5Hash("123456");
+        System.out.println(md5Hash.toString());
+    }
 
 }

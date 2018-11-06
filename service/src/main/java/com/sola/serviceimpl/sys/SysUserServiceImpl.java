@@ -6,6 +6,8 @@ import com.sola.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
@@ -41,5 +43,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public int updateByPrimaryKey(SysUser record) {
         return sysUserMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SysUser> findList(SysUser user) {
+        return sysUserMapper.findList(user);
     }
 }

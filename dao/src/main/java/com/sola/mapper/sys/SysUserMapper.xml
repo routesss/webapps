@@ -52,9 +52,76 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
 
- <!-- <select id="findList" parameterType="com.sola.entity.sys.SysUser" resultMap="BaseResultMap">
-
-  </select>-->
+  <select id="findList" parameterType="com.sola.entity.sys.SysUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+      from sys_user
+      <where>
+          <if test="loginName != null">
+              AND login_name = #{loginName,jdbcType=VARCHAR}
+          </if>
+          <if test="password != null">
+              AND password = #{password,jdbcType=VARCHAR}
+          </if>
+          <if test="realName != null">
+              AND real_name = #{realName,jdbcType=VARCHAR}
+          </if>
+          <if test="email != null">
+              AND email = #{email,jdbcType=VARCHAR}
+          </if>
+          <if test="phone != null">
+              AND phone = #{phone,jdbcType=VARCHAR}
+          </if>
+          <if test="mobile != null">
+              AND mobile = #{mobile,jdbcType=VARCHAR}
+          </if>
+          <if test="userType != null">
+              AND user_type = #{userType,jdbcType=CHAR}
+          </if>
+          <if test="companyId != null">
+              AND company_id = #{companyId,jdbcType=VARCHAR}
+          </if>
+          <if test="officeId != null">
+              AND office_id = #{officeId,jdbcType=VARCHAR}
+          </if>
+          <if test="photo != null">
+              AND photo = #{photo,jdbcType=VARCHAR}
+          </if>
+          <if test="idType != null">
+              AND id_type = #{idType,jdbcType=CHAR}
+          </if>
+          <if test="idCode != null">
+              AND id_code = #{idCode,jdbcType=VARCHAR}
+          </if>
+          <if test="userSource != null">
+              AND user_source = #{userSource,jdbcType=INTEGER}
+          </if>
+          <if test="loginIp != null">
+              AND login_ip = #{loginIp,jdbcType=VARCHAR}
+          </if>
+          <if test="loginDate != null">
+              AND login_date = #{loginDate,jdbcType=TIMESTAMP}
+          </if>
+          <if test="createBy != null">
+              AND create_by = #{createBy,jdbcType=VARCHAR}
+          </if>
+          <if test="createDate != null">
+              AND create_date = #{createDate,jdbcType=TIMESTAMP}
+          </if>
+          <if test="updateBy != null">
+              AND update_by = #{updateBy,jdbcType=VARCHAR}
+          </if>
+          <if test="updateDate != null">
+              AND update_date = #{updateDate,jdbcType=TIMESTAMP}
+          </if>
+          <if test="remarks != null">
+              AND remarks = #{remarks,jdbcType=VARCHAR}
+          </if>
+          <if test="delFlag != null">
+              AND del_flag = #{delFlag,jdbcType=CHAR}
+          </if>
+      </where>
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
