@@ -221,6 +221,13 @@
             <version>2.9.0</version>
         </dependency>
 
+        <!--mybatis分页-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.1.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>

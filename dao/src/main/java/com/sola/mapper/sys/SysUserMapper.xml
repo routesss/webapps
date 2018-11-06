@@ -51,6 +51,11 @@
     from sys_user
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+ <!-- <select id="findList" parameterType="com.sola.entity.sys.SysUser" resultMap="BaseResultMap">
+
+  </select>-->
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
       WARNING - @mbg.generated
