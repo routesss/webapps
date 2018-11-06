@@ -2,6 +2,8 @@ package com.sola.service.sys;
 
 import com.sola.entity.sys.SysRole;
 
+import java.util.List;
+
 public interface SysRoleService {
 
     /**
@@ -51,4 +53,6 @@ public interface SysRoleService {
      * @mbg.generated Mon Oct 29 17:36:18 CST 2018
      */
     int updateByPrimaryKey(SysRole record);
+
+    List<SysRole> findList(SysRole role) ;
 }

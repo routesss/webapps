@@ -1,6 +1,8 @@
 package com.sola.controller.shiro;
 
 
+import com.sola.dao.sys.SysRoleMapper;
+import com.sola.entity.sys.SysRole;
 import com.sola.entity.sys.SysUser;
 import com.sola.service.sys.SysUserService;
 import org.apache.shiro.authc.*;
@@ -25,6 +27,9 @@ public class MyRealmi extends AuthorizingRealm {
 
     @Autowired
     private SysUserService sysUserService ;
+
+    @Autowired
+    private SysRoleMapper sysRoleMapper ;
 
     private static Map<String, String> userData = new HashMap<String, String>() ;//模拟用户数据  后续从数据库中读取信息
     private static Map<String, Set> roleData = new HashMap<String, Set>() ;//模拟角色数据
@@ -119,11 +124,36 @@ public class MyRealmi extends AuthorizingRealm {
         //return userData.get(userName) ;
     }
 
+    /**
+     * 从用户名查询角色名
+     * @param userName
+     * @return
+     */
     private Set<String> getRolesByUserName(String userName){
 
-        return roleData.get(userName) ;
+        SysUser sysUser = new SysUser();
+        sysUser.setLoginName(userName);
+        List<SysUser> list = sysUserService.findList(sysUser);
+
+        if(list != null && !list.isEmpty()){
+            SysRole sysRole = new SysRole();
+            sysRole.setUserId(list.get(0).getId());
+            List<SysRole> roles = sysRoleMapper.findList(sysRole);
+            if(roles == null || roles.isEmpty()) {return null ;}
+
+            //roles.stream().
+
+            return null ;
+        }else{
+            return null ;
+        }
     }
 
+    /**
+     * 用户名查询权限名
+     * @param userName
+     * @return
+     */
     private Set<String> getPermissionsByUserName(String userName){
 
         return permissionsData.get(userName) ;

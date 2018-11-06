@@ -42,6 +42,57 @@
     from sys_role
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="findList" parameterType="com.sola.entity.sys.SysRole" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    <where>
+      <if test="officeId != null">
+        AND office_id = #{officeId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        AND name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="enname != null">
+        AND enname = #{enname,jdbcType=VARCHAR}
+      </if>
+      <if test="roleType != null">
+        AND role_type = #{roleType,jdbcType=VARCHAR}
+      </if>
+      <if test="dataScope != null">
+        AND data_scope = #{dataScope,jdbcType=CHAR}
+      </if>
+      <if test="isSys != null">
+        AND is_sys = #{isSys,jdbcType=VARCHAR}
+      </if>
+      <if test="useable != null">
+        AND useable = #{useable,jdbcType=VARCHAR}
+      </if>
+      <if test="createBy != null">
+        AND create_by = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null">
+        AND create_date = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null">
+        AND update_by = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDate != null">
+        AND update_date = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remarks != null">
+        AND remarks = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="delFlag != null">
+        AND del_flag = #{delFlag,jdbcType=CHAR}
+      </if>
+      <if test="userId != null and userId != ''">
+        id IN (select DISTINCT role_id from sys_user_role where user_id = #{userId,jdbcType=VARCHAR})
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
       WARNING - @mbg.generated

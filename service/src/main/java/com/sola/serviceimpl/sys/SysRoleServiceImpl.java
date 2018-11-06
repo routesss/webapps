@@ -6,6 +6,8 @@ import com.sola.service.sys.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
 
@@ -40,5 +42,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public int updateByPrimaryKey(SysRole record) {
         return sysRoleMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SysRole> findList(SysRole role) {
+        return sysRoleMapper.findList(role) ;
     }
 }
