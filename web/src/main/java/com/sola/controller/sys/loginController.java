@@ -47,7 +47,6 @@ public class loginController {
             subject.login(token);
             result.setState(0);
             result.setMsg("验证成功");
-            //subject.checkRole("超级管理员");
         }catch (Exception e){
             result.setState(1);
             //result.setMsg(e.getMessage());

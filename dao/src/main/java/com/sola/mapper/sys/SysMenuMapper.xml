@@ -96,9 +96,12 @@
       </if>
       <if test="roleIds != null">
         AND id in
-        <foreach collection="roleIds" index="index" item="item" open="(" separator="," close=")">
-          #{item}
-        </foreach>
+          (
+          select menu_id from sys_role_menu where role_id IN
+          <foreach collection="roleIds" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+          )
       </if>
     </where>
   </select>
