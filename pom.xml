@@ -15,6 +15,7 @@
         <module>commons-utils</module>
         <module>entity</module>
         <module>utils</module>
+        <module>job</module>
     </modules>
 
     <properties>
