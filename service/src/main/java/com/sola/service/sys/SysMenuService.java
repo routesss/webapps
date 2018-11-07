@@ -2,6 +2,8 @@ package com.sola.service.sys;
 
 import com.sola.entity.sys.SysMenu;
 
+import java.util.List;
+
 public interface SysMenuService {
 
     /**
@@ -51,5 +53,7 @@ public interface SysMenuService {
      * @mbg.generated Mon Oct 29 17:43:16 CST 2018
      */
     int updateByPrimaryKey(SysMenu record);
+
+    List<SysMenu> findList(SysMenu menu) ;
 
 }

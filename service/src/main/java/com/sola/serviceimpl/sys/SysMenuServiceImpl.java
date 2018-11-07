@@ -6,6 +6,8 @@ import com.sola.service.sys.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysMenuServiceImpl implements SysMenuService {
 
@@ -40,5 +42,10 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public int updateByPrimaryKey(SysMenu record) {
         return sysMenuMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SysMenu> findList(SysMenu menu) {
+        return sysMenuMapper.findList(menu);
     }
 }

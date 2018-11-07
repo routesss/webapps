@@ -2,8 +2,11 @@ package com.sola.controller.shiro;
 
 
 import com.sola.dao.sys.SysRoleMapper;
+import com.sola.entity.sys.SysMenu;
 import com.sola.entity.sys.SysRole;
 import com.sola.entity.sys.SysUser;
+import com.sola.service.sys.SysMenuService;
+import com.sola.service.sys.SysRoleService;
 import com.sola.service.sys.SysUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -29,8 +32,12 @@ public class MyRealmi extends AuthorizingRealm {
     private SysUserService sysUserService ;
 
     @Autowired
-    private SysRoleMapper sysRoleMapper ;
+    private SysRoleService sysRoleService ;
 
+    @Autowired
+    private SysMenuService sysMenuService ;
+
+    /* 测试使用
     private static Map<String, String> userData = new HashMap<String, String>() ;//模拟用户数据  后续从数据库中读取信息
     private static Map<String, Set> roleData = new HashMap<String, Set>() ;//模拟角色数据
     private static Map<String, Set> permissionsData = new HashMap<String, Set>() ;//模拟权限数据
@@ -48,7 +55,7 @@ public class MyRealmi extends AuthorizingRealm {
         permissionSet.add("user:add") ;
         permissionSet.add("user:delete") ;
         permissionsData.put("sola", permissionSet) ;
-    }
+    }*/
 
     /**
      * 检测授权数据
@@ -59,9 +66,9 @@ public class MyRealmi extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String userName = (String) principalCollection.getPrimaryPrincipal() ;
 
-        //测试数据是写死的 需要从数据库中获取
-        Set<String> role = getRolesByUserName(userName);
-        Set<String> permissions = getPermissionsByUserName(userName);
+        Map<String, Object> roleMap = getRolesByUserName(userName);
+        Set<String> role = (Set<String>) roleMap.get("roleNames") ;
+        Set<String> permissions = getPermissionsByRoleId((Set<String>) roleMap.get("roleIds"));
 
         SimpleAuthorizationInfo simpleAuthenticationInfo = new SimpleAuthorizationInfo();
         simpleAuthenticationInfo.setStringPermissions(permissions);//设置权限数据
@@ -129,7 +136,11 @@ public class MyRealmi extends AuthorizingRealm {
      * @param userName
      * @return
      */
-    private Set<String> getRolesByUserName(String userName){
+    private Map<String, Object> getRolesByUserName(String userName){
+
+        Map<String, Object> result = new HashMap<String, Object>() ;
+        Set<String> roleNames = new HashSet<String>() ;
+        Set<String> roleIds = new HashSet<String>() ;
 
         SysUser sysUser = new SysUser();
         sysUser.setLoginName(userName);
@@ -138,25 +149,40 @@ public class MyRealmi extends AuthorizingRealm {
         if(list != null && !list.isEmpty()){
             SysRole sysRole = new SysRole();
             sysRole.setUserId(list.get(0).getId());
-            List<SysRole> roles = sysRoleMapper.findList(sysRole);
-            if(roles == null || roles.isEmpty()) {return null ;}
+            List<SysRole> roles = sysRoleService.findList(sysRole);
 
-            //roles.stream().
-
-            return null ;
-        }else{
-            return null ;
+            for(SysRole role : roles){
+                roleNames.add(role.getEnname()) ;
+                roleIds.add(role.getId()) ;
+            }
         }
+        result.put("roleNames", roleNames) ;
+        result.put("roleIds", roleIds) ;
+        return result ;
     }
 
     /**
-     * 用户名查询权限名
-     * @param userName
+     * 角色id查询权限名
+     * @param roleIds
      * @return
      */
-    private Set<String> getPermissionsByUserName(String userName){
+    private Set<String> getPermissionsByRoleId(Set<String> roleIds){
 
-        return permissionsData.get(userName) ;
+        Set<String> menuNames = new HashSet<String>() ;
+        if(roleIds == null || roleIds.isEmpty()){
+            return menuNames ;
+        }
+        ArrayList<String> roleIdList = new ArrayList<>(roleIds);
+
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setRoleIds(roleIdList);
+        List<SysMenu> menuList = sysMenuService.findList(sysMenu);
+
+        for (SysMenu menu : menuList){
+            menuNames.add(menu.getName()) ;
+        }
+
+        return menuNames ;
     }
 
 }
