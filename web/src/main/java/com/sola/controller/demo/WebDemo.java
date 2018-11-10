@@ -72,6 +72,15 @@ public class WebDemo {
         return serviceDemo.demo2() ;
     }
 
+    /**
+     * socket测试页面
+     * @return
+     */
+    @RequestMapping("/toSocket")
+    public String toSocket(){
+
+        return "webSocket/socket" ;
+    }
 
 
 }

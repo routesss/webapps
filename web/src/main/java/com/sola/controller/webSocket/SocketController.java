@@ -19,16 +19,21 @@ public class SocketController extends TextWebSocketHandler {
     private Map<String, WebSocketSession> sessionMap = Collections.synchronizedMap(new HashMap<String, WebSocketSession>()) ;   //记录连接的session
     private static final Logger logger =LoggerFactory.getLogger(SocketController.class) ;           //日志
 
+
+    public SocketController() {
+        System.out.println("SocketController 构建");
+    }
+
     /**
      * 收到消息时触发的回调
      */
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        logger.info("meg {}", payload);
+        //logger.info("web socket message {}", payload);
         //测试代码 使用后删除 -------start-------- 用于发送消息代码
         for (String key :sessionMap.keySet()){
             WebSocketSession webSocketSession = sessionMap.get(key);
-            TextMessage textMessage = new TextMessage("hello " + payload) ;
+            TextMessage textMessage = new TextMessage("user  " + session.getId() + " : " + payload) ;
             webSocketSession.sendMessage(textMessage);
         }
         //测试代码 使用后删除 -------end----------
