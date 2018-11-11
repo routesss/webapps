@@ -28,7 +28,7 @@
     <!--unauthorizedUrl，系统未认证时跳转的页面，loginUrl登录页面，successUrl登录成功的页面-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"></property>
-        <property name="loginUrl" value="login"></property>
+        <property name="loginUrl" value="/login"></property>
         <property name="unauthorizedUrl" value="403"></property>
         <property name="filterChainDefinitions">
             <ref bean="shiroFilterChainDefinitions"></ref>

@@ -15,4 +15,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--<c:set var="ctx" value="${pageContext.request.contextPath}${fns:getAdminPath()}"/>--%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
+
+<script src="${ctx}/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="${ctx}/static/js/dateformat.js" type="text/javascript"></script>
