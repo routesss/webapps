@@ -2,6 +2,7 @@ package com.sola.controller.webSocket;
 
 import com.alibaba.fastjson.JSON;
 import com.sola.vo.webSocketVo.WsEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -22,8 +23,6 @@ public class SocketController extends TextWebSocketHandler {
     private final static String wsName = "ws-name" ;
     private Map<String, WebSocketSession> sessionMap = Collections.synchronizedMap(new HashMap<String, WebSocketSession>()) ;   //记录连接的session
     private static final Logger logger =LoggerFactory.getLogger(SocketController.class) ;           //日志
-
-    private Map<String, WebSocketSession> sessionMapNames = Collections.synchronizedMap(new HashMap<String, WebSocketSession>()) ;   //缓存name和session的对应关系 为了不遍历seeeionMap找到name对应的session
 
     public SocketController() {
         System.out.println("SocketController 构建");
@@ -56,11 +55,10 @@ public class SocketController extends TextWebSocketHandler {
         logger.info("close connect success url{} id{}", session.getUri(), session.getId());
         sessionMap.remove(session.getId()) ;
         String username = getSessionMessage(wsName, session).toString() ;
-        sessionMapNames.remove(username) ;//删除name和session的对应关系
 
         WsEntity wsEntity = new WsEntity();
         wsEntity.setFrom("system") ;
-        wsEntity.setContent(username+"离开");
+        wsEntity.setContext(username+"离开");
 
         for(Map.Entry<String, WebSocketSession> sessionItem : sessionMap.entrySet()){
             wsEntity.addSession(Integer.parseInt(sessionItem.getKey()), getSessionMessage(wsName, sessionItem.getValue()).toString());
@@ -78,11 +76,10 @@ public class SocketController extends TextWebSocketHandler {
         logger.info("create connect success url{} id{}", session.getUri(), session.getId());
         sessionMap.put(session.getId(), session) ;
         String username = getSessionMessage(wsName, session).toString() ;//用户标识名
-        sessionMapNames.put(username, session) ;//缓存name和session的对应关系
 
         WsEntity wsEntity = new WsEntity();
         wsEntity.setFrom("system") ;
-        wsEntity.setContent(username+"加入");
+        wsEntity.setContext(username+"加入");
         for(Map.Entry<String, WebSocketSession> sessionItem : sessionMap.entrySet()){
             wsEntity.addSession(Integer.parseInt(sessionItem.getKey()), getSessionMessage(wsName, sessionItem.getValue()).toString());
         }
@@ -113,7 +110,7 @@ public class SocketController extends TextWebSocketHandler {
      */
     private void sendMessage(WsEntity wsEntity) throws IOException {
 
-        if(wsEntity.getTo() == null){
+        if(StringUtils.isEmpty(wsEntity.getTo())){
             //广播
             for(WebSocketSession sessionItem : sessionMap.values()){
                 TextMessage textMessage = new TextMessage(wsEntity.toJson()) ;
@@ -121,10 +118,14 @@ public class SocketController extends TextWebSocketHandler {
             }
         }else{
             //发对应的session
-            String[] to_names = wsEntity.getTo().split(",") ;
-            for(String to_name : to_names){
-                TextMessage textMessage = new TextMessage(wsEntity.toJson()) ;
-                sessionMapNames.get(to_name).sendMessage(textMessage) ;
+            String[] to_sessionIds = wsEntity.getTo().split(",") ;
+            for(String to_sessionId : to_sessionIds){
+                if(StringUtils.isEmpty(to_sessionId)) {continue;}
+                WebSocketSession session = sessionMap.get(to_sessionId);
+                if(session != null){
+                    TextMessage textMessage = new TextMessage(wsEntity.toJson()) ;
+                    session.sendMessage(textMessage);
+                }
             }
         }
 

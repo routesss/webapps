@@ -15,7 +15,7 @@
     <title>socket</title>
 
     <style type="text/css">
-        #content{
+        #context{
             border: solid 1px black;height: 90%;width: 80%;float: left;
         }
         #userList{
@@ -33,7 +33,7 @@
 
 <div style="height: 500px; width: 800px;">
 
-    <div id="content">
+    <div id="context">
         <textarea id="msgArea" style="width: 100%; height: 100%;"></textarea>
     </div>
     <div id="userList"></div>
@@ -123,7 +123,7 @@
      * @constructor
      */
     function HandleMessage(message) {
-        var result = message.from + "-" + new Date(message.date).pattern("yyyy-MM-dd hh:mm:ss") + " : " + message.content;
+        var result = message.from + "-" + new Date(message.date).pattern("yyyy-MM-dd hh:mm:ss") + " : " + message.context;
         return result ;
     }
 
@@ -154,6 +154,7 @@
             var $msg = $("#msg").val() ;
             var to = "";
 
+            //获取选中的用户
             var userlist = $("input[name='userdata']:checked") ;
 
             for(var i = 0; i < userlist.length; i++){
@@ -170,7 +171,7 @@
 
             console.log(JSON.stringify(param)) ;
 
-            //ws.send($msg) ;
+            ws.send(JSON.stringify(param)) ;
         }else{
             alert("webSocket 未连接") ;
         }

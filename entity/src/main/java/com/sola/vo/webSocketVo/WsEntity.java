@@ -11,7 +11,7 @@ public class WsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String content ;
+    private String context ;
 
     private String from ;
 
@@ -54,12 +54,12 @@ public class WsEntity implements Serializable {
         return JSON.toJSONString(this) ;
     }
 
-    public String getContent() {
-        return content;
+    public String getContext() {
+        return context;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContext(String context) {
+        this.context = context;
     }
 
     public String getFrom() {
