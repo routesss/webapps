@@ -97,7 +97,8 @@ public class ApplicationTEST {
     @Test
     public void demo7(){
         try{
-            SecurityUtil.testOne();
+            //SecurityUtil.testOne();
+            SecurityUtil.testTwo();
         }catch (Exception e){
             e.printStackTrace();
         }
