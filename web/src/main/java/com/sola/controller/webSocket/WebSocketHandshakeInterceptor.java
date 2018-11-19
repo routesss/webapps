@@ -24,7 +24,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
             String flag_name = ((ServletServerHttpRequest) serverHttpRequest).getServletRequest().getParameter(wsName) ;//获取webSocket握手时传过来的参数 ws = new WebSocket("ws://localhost:8080/socket?ws-name="+$name);
             /*((ServletServerHttpRequest) serverHttpRequest).getServletRequest().getSession() ;*/ //该session时web容器的session
-            map.put(wsName, flag_name) ;
+            map.put(wsName, flag_name) ;//握手时参数放入webSession的作用域中
         }
 
         return true;

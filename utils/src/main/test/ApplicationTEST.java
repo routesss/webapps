@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.sola.utils.security.SecurityUtil;
 import com.sola.utils.sort.SortUtil;
 import com.sola.utils.sort.find.FindUtil;
 import com.sola.utils.tree.tfTree.TfTree;
@@ -91,6 +92,16 @@ public class ApplicationTEST {
         tree.paintTree();
     }
 
+
+    //非对称加密解密
+    @Test
+    public void demo7(){
+        try{
+            SecurityUtil.testOne();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 }
