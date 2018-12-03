@@ -9,8 +9,9 @@
     <title>Bootstrap</title>
 
     <link href="${ctx}/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="${ctx}/static/layui/css/layui.css" rel="stylesheet" type="text/css">
     <style type="text/css">
-        .container,.row,.col-md-4,.col-md-6,.col-md-8,col-md-9{
+        .container,.row,.col-md-4,.col-md-6,.col-md-8,col-md-9,col-xs-6,col-sm-3{
             border: 1px solid black;
         }
     </style>
@@ -19,19 +20,29 @@
 
 <div class="container-fluid">
     <div class="row">
-        Subsequent columns continue along the new line.
-        <div class="row">
-            <div class="col-md-9">.col-xs-9</div>
-            <div class="col-md-4">.col-xs-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
-            <div class="col-md-6">.col-xs-6<br>Subsequent columns continue along the new line.</div>
-        </div>
+        <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3Resize your viewport or check it out on your phone for an example.</div>
+        <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
+
+        <!-- Add the extra clearfix for only the required viewport -->
+        <div class="clearfix visible-xs-block"></div>
+
+        <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
+        <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
     </div>
-    <div class="row">
-        <div class="col-md-4">C</div>
-        <div class="col-md-8">D</div>
-    </div>
+
+
 </div>
 
 <script src="${ctx}/static/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        layer.msg('Hello World');
+    });
+</script>
+
 </body>
 </html>

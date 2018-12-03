@@ -18,3 +18,4 @@
 
 <script src="${ctx}/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/js/dateformat.js" type="text/javascript"></script>
+<script src="${ctx}/static/layui/layui.all.js" type="text/javascript"></script>
