@@ -1,9 +1,11 @@
 package com.sola.utils.redisUtil;
 
+import com.sola.utils.common.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.SerializationUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -100,5 +102,23 @@ public class RedisUtil {
         }finally {
             jedis.close();
         }
+    }
+
+    /**
+     * 序列化对象
+     * @param object
+     * @return
+     */
+    public static byte[] toBytes(Object object){
+        return SerializationUtils.serialize(object) ;
+    }
+
+    /**
+     * 反序列化对象
+     * @param bytes
+     * @return
+     */
+    public static Object toObject(byte[] bytes){
+        return SerializationUtils.deserialize(bytes) ;
     }
 }
