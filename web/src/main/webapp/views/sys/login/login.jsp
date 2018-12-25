@@ -76,7 +76,7 @@
                     success : function (data) {
                         console.log(data) ;
                         if(data.state == 0){
-                            alert(data.msg) ;
+                            window.location.href="${ctx}/sys/toSys";
                         }else{
                             alert(data.msg) ;
                         }
