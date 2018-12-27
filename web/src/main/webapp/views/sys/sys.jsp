@@ -49,10 +49,10 @@
                 <li class="layui-nav-item layui-nav-itemed" data-url="" data-name="所有商品" data-open="0">
                     <a href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-url="new url1" data-name="列表一" data-open="1" data-external="0">列表一</a></dd>
-                        <dd><a href="javascript:;" data-url="new url2" data-name="列表二" data-open="1" data-external="0">列表二</a></dd>
-                        <dd><a href="javascript:;" data-url="new url3" data-name="列表三" data-open="1" data-external="0">列表三</a></dd>
-                        <dd><a href="javascript:;" data-url="new url4" data-name="超链接" data-open="1" data-external="1">超链接</a></dd>
+                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表一" data-open="1" data-external="1">列表一</a></dd>
+                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表二" data-open="1" data-external="1">列表二</a></dd>
+                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表三" data-open="1" data-external="1">列表三</a></dd>
+                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="超链接" data-open="1" data-external="1">超链接</a></dd>
                     </dl>
                 </li>
 
@@ -92,7 +92,7 @@
             //tab事件监控
             element.on('tab(${MainTabName})', function (data) {
 
-                console.log(data) ;
+                //console.log(data) ;
 
             });
 
@@ -105,20 +105,21 @@
                 var dataOpen = elem.attr("data-open") ;         //是否打开tab
                 var dataExternal = elem.attr("data-external") ; //是否是外站连接
 
-                findTab("${MainTabName}", dataUrl) ;
-
                 //是否新增tab
                 if(dataOpen == 1){
-                    //是否是外站连接
-                    if(dataExternal == 0){
-                        dataUrl = "${ctx}"+dataUrl ;
+                    //如果tab不存在则创建tab
+                    if(findTab("${MainTabName}", dataUrl) == false){
+                        //是否是外站连接
+                        if(dataExternal == 0){
+                            dataUrl = "${ctx}"+dataUrl ;
+                        }
+                        //添加tab
+                        element.tabAdd('${MainTabName}',{
+                            title : dataName,
+                            content : "<iframe frameborder='0' scrolling='no' id='if"+dataUrl+"' width='100%' height='100%' src='"+dataUrl+"'></iframe>",
+                            id:dataUrl
+                        }) ;
                     }
-                    element.tabAdd('${MainTabName}',{
-                        title : dataName,
-                        content : dataUrl,
-                        id:dataUrl
-                    }) ;
-
                     //跳转到打开的tab窗口
                     element.tabChange("${MainTabName}", dataUrl);
                 }
@@ -130,6 +131,7 @@
     }) ;
 
 
+    //查找指定tab是否存在
     function findTab(t,i)
     {
         var a=layui.$ ;
@@ -137,8 +139,24 @@
             l=a(".layui-tab[lay-filter="+t+"]"),
             n=l.children(e),
             s=n.find('>li[lay-id="'+i+'"]');
-        console.log(s[0]) ;
+        //console.log(s[0]) ;
+        if(s[0] == undefined){
+            return false ;
+        }else{
+            return true ;
+        }
+    }
 
+    //FrameWH("if"+dataUrl) ;
+    function FrameWH(ifId) {
+        //$("#"+ifId+"").height(document.documentelement.clientHeight) ;
+
+        var ifm= document.getElementById(ifId);
+
+        ifm.height=document.documentElement.clientHeight;
+
+        /*var h = $(window).height();
+        $("iframe").css("height",h+"px");*/
     }
 
 </script>
