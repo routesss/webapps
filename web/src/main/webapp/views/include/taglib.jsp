@@ -21,3 +21,7 @@
 <script src="${ctx}/static/layui/layui.js"></script>
 
 <%--<script src="${ctx}/static/layui/layui.all.js" type="text/javascript"></script>--%>
+
+
+<c:set var="MainTabName" value="mainTab"/>
+<c:set var="MainNavName" value="mainNav"/>

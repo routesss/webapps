@@ -44,46 +44,33 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+            <ul class="layui-nav layui-nav-tree"  lay-filter="${MainNavName}">
+
+                <li class="layui-nav-item layui-nav-itemed" data-url="" data-name="所有商品" data-open="0">
+                    <a href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;" data-url="new url1" data-name="列表一" data-open="1" data-external="0">列表一</a></dd>
+                        <dd><a href="javascript:;" data-url="new url2" data-name="列表二" data-open="1" data-external="0">列表二</a></dd>
+                        <dd><a href="javascript:;" data-url="new url3" data-name="列表三" data-open="1" data-external="0">列表三</a></dd>
+                        <dd><a href="javascript:;" data-url="new url4" data-name="超链接" data-open="1" data-external="1">超链接</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+
+                <li class="layui-nav-item" data-url="new url5" data-name="云市场" data-open="1" data-external="0"><a href="">云市场</a></li>
+
+
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div class="layui-tab" lay-allowClose="true">
+        <div class="layui-tab" lay-filter="${MainTabName}" lay-allowClose="true">
             <ul class="layui-tab-title">
                 <li class="layui-this">网站设置</li>
-                <li>用户管理</li>
-                <li>权限分配</li>
-                <li>商品管理</li>
-                <li>订单管理</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">内容1</div>
-                <div class="layui-tab-item">内容2</div>
-                <div class="layui-tab-item">内容3</div>
-                <div class="layui-tab-item">内容4</div>
-                <div class="layui-tab-item">内容5</div>
             </div>
         </div>
     </div>
@@ -96,9 +83,48 @@
 
 <script>
     //JavaScript代码区域
-    layui.use(['element'], function(){
-        var element = layui.element;
-    });
+    $(function () {
+
+        //加载element模块
+        layui.use(['element'], function(){
+            var element = layui.element;
+
+            //tab事件监控
+            element.on('tab(${MainTabName})', function (data) {
+
+                console.log(data) ;
+
+            });
+
+            //监控菜单栏点击事件
+            element.on('nav(${MainNavName})', function(elem){
+
+                //console.log(elem) ; //当前点击的dom对象
+                var dataUrl = elem.attr("data-url") ;           //菜单url
+                var dataName = elem.attr("data-name") ;         //菜单名
+                var dataOpen = elem.attr("data-open") ;         //是否打开tab
+                var dataExternal = elem.attr("data-external") ; //是否是外站连接
+
+                //是否新增tab
+                if(dataOpen == 1){
+                    //是否是外站连接
+                    if(dataExternal == 0){
+                        dataUrl = ${ctx}+dataUrl ;
+                    }
+                    element.tabAdd('${MainTabName}',{
+                        title : dataName,
+                        content : dataUrl,
+                        id:dataUrl
+                    }) ;
+
+                    element.tabChange("${MainTabName}", dataUrl);
+                }
+
+            }) ;
+        });
+
+
+    }) ;
 </script>
 </body>
 </html>
