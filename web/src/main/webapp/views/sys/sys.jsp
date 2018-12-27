@@ -105,11 +105,13 @@
                 var dataOpen = elem.attr("data-open") ;         //是否打开tab
                 var dataExternal = elem.attr("data-external") ; //是否是外站连接
 
+                findTab("${MainTabName}", dataUrl) ;
+
                 //是否新增tab
                 if(dataOpen == 1){
                     //是否是外站连接
                     if(dataExternal == 0){
-                        dataUrl = ${ctx}+dataUrl ;
+                        dataUrl = "${ctx}"+dataUrl ;
                     }
                     element.tabAdd('${MainTabName}',{
                         title : dataName,
@@ -117,6 +119,7 @@
                         id:dataUrl
                     }) ;
 
+                    //跳转到打开的tab窗口
                     element.tabChange("${MainTabName}", dataUrl);
                 }
 
@@ -125,6 +128,19 @@
 
 
     }) ;
+
+
+    function findTab(t,i)
+    {
+        var a=layui.$ ;
+        var e=".layui-tab-title",
+            l=a(".layui-tab[lay-filter="+t+"]"),
+            n=l.children(e),
+            s=n.find('>li[lay-id="'+i+'"]');
+        console.log(s[0]) ;
+
+    }
+
 </script>
 </body>
 </html>
