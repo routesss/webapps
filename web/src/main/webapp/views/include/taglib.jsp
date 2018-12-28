@@ -22,6 +22,6 @@
 
 <%--<script src="${ctx}/static/layui/layui.all.js" type="text/javascript"></script>--%>
 
-
+<%--sys页面tab名称和nav名称--%>
 <c:set var="MainTabName" value="mainTab"/>
 <c:set var="MainNavName" value="mainNav"/>

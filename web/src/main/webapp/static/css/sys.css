@@ -1,0 +1,13 @@
+/* layui tab添加高度属性 */
+.layui-tab{
+    height: 95%;
+    overflow:hidden;
+}
+
+.layui-tab-content{
+    height: 95%;
+}
+
+.layui-tab-item{
+    height: 98%;
+}

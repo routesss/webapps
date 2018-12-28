@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="${ctx}/static/layui/css/layui.css">
+    <link rel="stylesheet" href="${ctx}/static/css/sys.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -116,7 +117,7 @@
                         //添加tab
                         element.tabAdd('${MainTabName}',{
                             title : dataName,
-                            content : "<iframe frameborder='0' scrolling='no' id='if"+dataUrl+"' width='100%' height='100%' src='"+dataUrl+"'></iframe>",
+                            content : "<iframe frameborder='0' scrolling='auto' id='if"+dataUrl+"' width='100%' height='100%' src='"+dataUrl+"'></iframe>",
                             id:dataUrl
                         }) ;
                     }
@@ -145,18 +146,6 @@
         }else{
             return true ;
         }
-    }
-
-    //FrameWH("if"+dataUrl) ;
-    function FrameWH(ifId) {
-        //$("#"+ifId+"").height(document.documentelement.clientHeight) ;
-
-        var ifm= document.getElementById(ifId);
-
-        ifm.height=document.documentElement.clientHeight;
-
-        /*var h = $(window).height();
-        $("iframe").css("height",h+"px");*/
     }
 
 </script>
