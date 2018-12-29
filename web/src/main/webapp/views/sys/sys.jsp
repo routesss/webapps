@@ -29,16 +29,16 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    sola
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a href="">退出</a></li>
         </ul>
     </div>
 
@@ -50,8 +50,8 @@
                 <li class="layui-nav-item layui-nav-itemed" data-url="" data-name="所有商品" data-open="0">
                     <a href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表一" data-open="1" data-external="1">列表一</a></dd>
-                        <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表二" data-open="1" data-external="1">列表二</a></dd>
+                        <dd><a href="javascript:;" data-url="/menuController/list" data-name="列表一" data-open="1" data-external="0">列表一</a></dd>
+                        <dd><a href="javascript:;" data-url="/menuController/toListTree" data-name="列表二" data-open="1" data-external="0">列表二</a></dd>
                         <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="列表三" data-open="1" data-external="1">列表三</a></dd>
                         <dd><a href="javascript:;" data-url="https://www.baidu.com/" data-name="超链接" data-open="1" data-external="1">超链接</a></dd>
                     </dl>
