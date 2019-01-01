@@ -12,12 +12,21 @@ public class menuController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass()) ;
 
+    @RequestMapping(value = "/toListTree")
+    public Object toListTree(){
+        return "sys/menu/menuTreeList";
+    }
+
+    @RequestMapping(value = "/toForm")
+    public Object toForm(){
+        return "sys/menu/menuForm" ;
+    }
+
     @RequestMapping(value = "/list")
     public Object toList(){
 
-        return "sys/menuList" ;
+        return "sys/menu/menuList";
     }
-
 
     @RequestMapping(value = "listDate")
     @ResponseBody
@@ -120,11 +129,6 @@ public class menuController {
                 "}  " ;
 
         return content ;
-    }
-
-    @RequestMapping(value = "/toListTree")
-    public Object toListTree(){
-        return "sys/menuTreeList" ;
     }
 
     @RequestMapping(value = "toListDateTree")
