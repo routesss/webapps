@@ -28,7 +28,7 @@
 
 <script type="text/javascript">
     layui.config({
-        base:'${ctx}/static/lay/js/'
+        base:'${ctx}/static/lay-treetable/js/'
     }).extend({
         treetable : 'treetable'
     }) ;
@@ -111,7 +111,10 @@
         })
 
         $("#add").click(function(){
-            openAddWin("添加菜单", "https://www.baidu.com/", '500px', '600px') ;
+            openAddWin("添加菜单", "${ctx}/menuController/toForm", '500px', '900px') ;
+
+            var iframeWindow = layero.find('iframe')[0].contentWindow;
+            iframeWindow.reRender() ;
         }) ;
 
     })

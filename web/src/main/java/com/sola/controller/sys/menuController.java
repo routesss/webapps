@@ -14,18 +14,18 @@ public class menuController {
 
     @RequestMapping(value = "/toListTree")
     public Object toListTree(){
-        return "sys/menu/menuTreeList";
+        return "sys/menus/menuTreeList";
     }
 
     @RequestMapping(value = "/toForm")
     public Object toForm(){
-        return "sys/menu/menuForm" ;
+        return "sys/menus/menuForm" ;
     }
 
     @RequestMapping(value = "/list")
     public Object toList(){
 
-        return "sys/menu/menuList";
+        return "sys/menus/menuList";
     }
 
     @RequestMapping(value = "listDate")

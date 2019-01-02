@@ -3,7 +3,7 @@ function openAddWin(title, url, height, width){
     layer.open({
         type: 2,
         title : title,
-        area:[height, width],
+        area:[width, height],
         maxmin:true,
         btn: ['确认', '关闭'],
         content: url, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
@@ -24,7 +24,7 @@ function openLockWin(title, url, height, width){
     layer.open({
         type: 2,
         title : title,
-        area:[height, width],
+        area:[width, height],
         maxmin:true,
         btn: ['关闭'],
         content: url,
