@@ -93,22 +93,20 @@
 </div>
 
 <script type="text/javascript">
-    $(function (){
-        layui.use(['treetable', 'form'], function () {
-            var element = layui.element;
+    layui.use(['treetable', 'form'], function () {
+        var element = layui.element;
+        var form = layui.form;
+
+    });
+
+    function renderForm(){
+        layui.use(['form'], function(){
             var form = layui.form;
 
-        });
-
-    }) ;
-
-
-    function reRender(){
-        layui.use('form', function() {
-            var form = layui.form;
             form.render();
-        });
+        }) ;
     }
+
 </script>
 </body>
 </html>

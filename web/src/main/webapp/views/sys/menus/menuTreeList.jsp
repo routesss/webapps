@@ -33,10 +33,12 @@
         treetable : 'treetable'
     }) ;
 
-    layui.use(['treetable','form'],function(){
+    layui.use(['treetable','form', 'layer'],function(){
         var data=[{"id":1,"pid":0,"title":"1-1"},{"id":2,"pid":0,"title":"1-2"},{"id":3,"pid":0,"title":"1-3"},{"id":4,"pid":1,"title":"1-1-1"},{"id":5,"pid":1,"title":"1-1-2"},{"id":6,"pid":2,"title":"1-2-1"},{"id":7,"pid":2,"title":"1-2-3"},{"id":8,"pid":3,"title":"1-3-1"},{"id":9,"pid":3,"title":"1-3-2"},{"id":10,"pid":4,"title":"1-1-1-1"},{"id":11,"pid":4,"title":"1-1-1-2"}];
         var o = layui.$,treetable = layui.treetable;
         var form = layui.form,layer = layui.layer;
+        var layer = layui.layer ;
+
         treetable.render({
             treeColIndex: 1,          // 树形图标显示在第几列
             treeSpid: 0,             // 	最上级的父级id
@@ -112,9 +114,6 @@
 
         $("#add").click(function(){
             openAddWin("添加菜单", "${ctx}/menuController/toForm", '500px', '900px') ;
-
-            var iframeWindow = layero.find('iframe')[0].contentWindow;
-            iframeWindow.reRender() ;
         }) ;
 
     })

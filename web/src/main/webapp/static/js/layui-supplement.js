@@ -10,6 +10,11 @@ function openAddWin(title, url, height, width){
         cancel:function(index, layero){
             return true ;
         },
+        success: function(layero, index){
+            var iframeWindow = layero.find('iframe')[0].contentWindow; //获得子页面的对象
+            /*iframeWindow.layui.form.render();*/
+            iframeWindow.renderForm() ;
+        },
         yes:function(index, layero){
             layer.msg('yes');
             layer.close(index); //如果设定了yes回调，需进行手工关闭
@@ -30,6 +35,10 @@ function openLockWin(title, url, height, width){
         content: url,
         cancel:function(index, layero){
             return true ;
+        },
+        success: function(layero, index){
+            var iframeWindow = layero.find('iframe')[0].contentWindow; //获得子页面的对象
+            iframeWindow.layui.form.render();
         },
         yes:function(index, layero){
             layer.msg('cancel');
