@@ -87,7 +87,7 @@
         <dependency><!--Spring的核心工具包-->
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>5.3.19</version>
         </dependency>
         <dependency><!--在基础IOC功能上提供扩展服务，此外还提供许多企业级服务的支持，有邮件服务、任务调度、JNDI定位，EJB集成、远程访问、缓存以及多种视图层框架的支持-->
             <groupId>org.springframework</groupId>
